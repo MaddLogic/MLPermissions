@@ -1,4 +1,4 @@
-export default {
+const MLPermissions = {
   install(Vue, options = {}) {
 
     Vue.directive('can', {
@@ -38,5 +38,10 @@ export default {
       }
     });
   }
-
 };
+
+if (typeof window !== 'undefined' && window.Vue) {
+  window.Vue.use(MLPermissions);
+}
+
+export default MLPermissions;
