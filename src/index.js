@@ -1,8 +1,7 @@
 const MLPermissions = {
-  install(Vue, options = {}) {
+  install(app, options = {}) {
 
-    Vue.directive('can', {
-      bind: function (el, binding, vnode) {
+    app.directive('can', (el, binding, vnode) => {
         const { user } = options;
 
         el.style.visibility = "hidden";
@@ -37,8 +36,7 @@ const MLPermissions = {
           el.style.visibility = ""
         }
 
-      }
-    });
+      });
   }
 };
 
