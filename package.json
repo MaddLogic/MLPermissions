@@ -1,7 +1,7 @@
 {
   "name": "mlpermissions",
   "description": "A VueJS plugin for handling permissions",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": false,
   "author": "Maddlogic Developer",
   "license": "MIT",
@@ -11,7 +11,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build-library" : "vue-cli-service build --target lib --name mlpermissions ./src/index.js",
+    "build-library": "vue-cli-service build --target lib --name mlpermissions ./src/index.js",
     "lint": "vue-cli-service lint"
   },
   "devDependencies": {
