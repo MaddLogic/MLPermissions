@@ -2,52 +2,50 @@
 const MLPermissions = {
   install(app, options = {}) {
 
-    app.directive('can', (el, binding, vnode) => {
-      const { user } = options;
+    app.directive('can', {
+      mounted(el, binding) {
+        const { user } = options;
 
-      el.style.visibility = "hidden";
+        el.style.visibility = "hidden";
 
-      const permissions = user.permissions.map(p => { return p.toLowerCase(); });
+        const permissions = user.permissions.map(p => { return p.toLowerCase(); });
 
-      let ok = permissions.includes(`${binding.arg} ${binding.expression}`);
+        let ok = permissions.includes(`${binding.arg} ${binding.value}`);
 
-      const show = binding.modifiers.show;
+        const show = binding.modifiers.show;
 
-      console.log(permissions, options, ok, show);
-      console.log(vnode);
 
-      vnode.context.$nextTick(() => {
         if(show){
           if (!ok) {
-            vnode.elm.parentElement.removeChild(vnode.elm);
+            el.parentElement.removeChild(el);
           }
         }else{
           const behavior = binding.modifiers.disable ? 'disable' : 'hide';
           if (!ok) {
             if (behavior === 'hide') {
-              vnode.elm.parentElement.removeChild(vnode.elm);
+              el.parentElement.removeChild(el);
             } else if (behavior === 'disable') {
               el.disabled = true;
               el.style.visibility = ""
             }
           }
         }
-      });
 
-      if(ok){
-        el.style.visibility = ""
+        if(ok){
+          el.style.visibility = ""
+        }
       }
-
     });
 
     //params i.e segment = ["tasks", "add"]
     app.isPermittedRoute = function(segment) {
+      const { user } = options;
       const permissions = user.permissions.map(p => { return p.toLowerCase(); });
 
       const arg = segment[1];
-      const exp = segment[0];
+      const val = segment[0];
 
-      return permissions.includes(`${arg} ${exp}`);
+      return permissions.includes(`${arg} ${val}`);
 
     };
   }
