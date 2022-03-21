@@ -4,6 +4,7 @@ const MLPermissions = {
 
     app.directive('can', {
       mounted(el, binding) {
+
         const { user } = options;
 
         el.style.visibility = "hidden";
