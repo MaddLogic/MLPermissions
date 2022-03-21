@@ -11,7 +11,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build-library": "vue-cli-service build --target lib --name mlpermissions ./src/index.js",
+    "build-library" : "vue-cli-service build --target lib --name mlpermissions ./src/index.js",
     "lint": "vue-cli-service lint"
   },
   "devDependencies": {
@@ -26,11 +26,5 @@
     "vue": "^3.2.31",
     "vue-template-compiler": "^2.6.14"
   },
-  "files": [
-    "dist/*",
-    "src/*",
-    "public/*",
-    "*.json",
-    "*.js"
-  ]
+  "files": ["dist"]
 }
