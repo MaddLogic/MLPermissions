@@ -14,6 +14,7 @@ const MLPermissions = {
       const show = binding.modifiers.show;
 
       console.log(permissions, options, ok, show);
+      console.log(vnode);
 
       vnode.context.$nextTick(() => {
         if(show){
