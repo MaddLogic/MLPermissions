@@ -1,8 +1,8 @@
-
+//<a href="" v-permit:edit="tasks"></a>
 const MLPermissions = {
   install(app, options = {}) {
 
-    app.directive('can', {
+    app.directive('permit', {
       mounted(el, binding) {
 
         const { user } = options;
@@ -13,33 +13,22 @@ const MLPermissions = {
 
         let ok = permissions.includes(`${binding.arg} ${binding.value}`);
 
-        const show = binding.modifiers.show;
+        const behavior = binding.modifiers.disable ? 'disable' : 'hide';
 
-
-        if(show){
-          if (!ok) {
+        if (!ok) {
+          if (behavior === 'hide') {
             el.parentElement.removeChild(el);
+          } else if (behavior === 'disable') {
+            el.disabled = true;
+            el.style.visibility = ""
           }
         }else{
-          const behavior = binding.modifiers.disable ? 'disable' : 'hide';
-          if (!ok) {
-            if (behavior === 'hide') {
-              el.parentElement.removeChild(el);
-            } else if (behavior === 'disable') {
-              el.disabled = true;
-              el.style.visibility = ""
-            }
-          }
-        }
-
-        if(ok){
           el.style.visibility = ""
         }
       }
     });
 
-    //params i.e segment = ["tasks", "add"]
-    app.isPermittedRoute = function(segment) {
+    app.isPermitted = function(segment) {
       const { user } = options;
       const permissions = user.permissions.map(p => { return p.toLowerCase(); });
 
