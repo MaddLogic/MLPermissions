@@ -1,21 +1,43 @@
-//<a href="" v-permit:edit="tasks"></a>
-const MLPermissions = {
-  install(app, options = {}) {
 
+class MLPermissions {
+
+  constructor(permissions = null) {
+    this.permissions = permissions;
+  }
+
+  set permissions(perms){
+    this._permissions = perms;
+  }
+
+  get permissions(){
+    return this._permissions;
+  }
+
+  set permitted(callback){
+    this._permitted = callback(this._permissions);
+  }
+
+  get permitted(){
+
+    if(this._permitted === undefined){
+      console.warn("Permitted function has not been set. Set it up first.");
+    }
+    return this._permitted;
+  }
+
+  install(app) {
+
+    const $this = this;
+
+    //global directive
     app.directive('permit', {
       mounted(el, binding) {
 
-        let { permissions } = options;
-
         el.style.visibility = "hidden";
-
-        permissions = permissions.map(p => { return p.toLowerCase(); });
-
-        let ok = permissions.includes(`${binding.arg.toLowerCase()} ${binding.value.toLowerCase()}`);
 
         const behavior = binding.modifiers.disable ? 'disable' : 'hide';
 
-        if (!ok) {
+        if (!$this.permitted) {
           if (behavior === 'hide') {
             el.parentElement.removeChild(el);
           } else if (behavior === 'disable') {
@@ -28,28 +50,26 @@ const MLPermissions = {
       }
     });
 
-    app.isPermittedBySegment = function(segment) {
-      let { permissions } = options;
-      permissions = permissions.map(p => { return p.toLowerCase(); });
-
-      const arg = segment[1];
-      const val = segment[0];
-
-      return permissions.includes(`${arg.toLowerCase()} ${val.toLowerCase()}`);
-
-    };
-
-    app.isPermitted = function(action, type){
-      let { permissions } = options;
-      permissions = permissions.map(p => { return p.toLowerCase(); });
-
-      return permissions.includes(`${action.toLowerCase()} ${type.toLowerCase()}`);
+    //global method
+    app.isPermitted = () => {
+      return $this.permitted;
     }
-  }
-};
 
-if (typeof window !== 'undefined' && window.Vue) {
-  window.Vue.use(MLPermissions);
+    //instance method
+    app.prototype.$isPermitted = function(){ return $this.permitted; }
+
+    //mixin method
+    app.mixin({
+      methods: {
+        isPermitted: function(){ return $this.permitted; }
+      }
+    })
+  }
+
 }
 
+// if (typeof window !== 'undefined' && window.Vue) {
+//   window.Vue.use(new MLPermissions());
+//
+// }
 export default MLPermissions;
