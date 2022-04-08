@@ -1,35 +1,11 @@
+import MLPermitBase from "./MLPermitBase";
 
-class MLPermissions {
 
-  constructor(permissions = null) {
-    this.permissions = permissions;
-  }
-
-  set permissions(perms){
-    this._permissions = perms;
-  }
-
-  get permissions(){
-    return this._permissions;
-  }
-
-  set permitted(callback){
-    this._permitted = callback(this._permissions);
-  }
-
-  get permitted(){
-
-    if(this._permitted === undefined){
-      console.warn("Permitted function has not been set. Set it up first.");
-    }
-    return this._permitted;
-  }
-
+class MLPermissions extends MLPermitBase{
   install(app) {
 
     const $this = this;
 
-    //global directive
     app.directive('permit', {
       mounted(el, binding) {
 
@@ -37,7 +13,12 @@ class MLPermissions {
 
         const behavior = binding.modifiers.disable ? 'disable' : 'hide';
 
-        if (!$this.permitted) {
+        var action = binding.arg.toLowerCase();
+        var vobject = binding.value.toLowerCase();
+
+        let ok = $this.isPermitted(action, vobject);
+
+        if (!ok) {
           if (behavior === 'hide') {
             el.parentElement.removeChild(el);
           } else if (behavior === 'disable') {
@@ -51,19 +32,20 @@ class MLPermissions {
     });
 
     //global method
-    app.isPermitted = () => {
-      return $this.permitted;
+    app.isPermitted = (action, vobject) => {
+      return $this.isPermitted(action, vobject);
     }
 
     //instance method
-    app.prototype.$isPermitted = function(){ return $this.permitted; }
+    // app.prototype.$isPermitted = function(){ return $this.permitted; }
 
     //mixin method
     app.mixin({
       methods: {
-        isPermitted: function(){ return $this.permitted; }
+        isPermitted: function(action, vobject){ return $this.isPermitted(action, vobject); }
       }
     })
+
   }
 
 }
@@ -72,4 +54,5 @@ class MLPermissions {
 //   window.Vue.use(new MLPermissions());
 //
 // }
+
 export default MLPermissions;
