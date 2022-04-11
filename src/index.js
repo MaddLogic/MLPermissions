@@ -6,6 +6,7 @@ class MLPermissions extends MLPermitBase{
 
     const $this = this;
 
+    //v-permit:edit="tasks"
     app.directive('permit', {
       mounted(el, binding) {
 
@@ -13,17 +14,17 @@ class MLPermissions extends MLPermitBase{
 
         const behavior = binding.modifiers.disable ? 'disable' : 'hide';
 
-        var action = binding.arg.toLowerCase();
-        var vobject = binding.value.toLowerCase();
+        // var action = binding.arg.toLowerCase();
+        // var vobject = binding.value.toLowerCase();
 
-        let ok = $this.isPermitted(action, vobject);
+        let ok = $this.isPermitted(binding.arg, binding.value);
 
         if (!ok) {
-          if (behavior === 'hide') {
-            el.parentElement.removeChild(el);
-          } else if (behavior === 'disable') {
+          if (behavior === 'disable') {
             el.disabled = true;
             el.style.visibility = ""
+          } else {
+            el.parentElement.removeChild(el);
           }
         }else{
           el.style.visibility = ""
@@ -32,6 +33,7 @@ class MLPermissions extends MLPermitBase{
     });
 
     //global method
+    //return bool (true/false)
     app.isPermitted = (action, vobject) => {
       return $this.isPermitted(action, vobject);
     }
