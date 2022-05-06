@@ -34,31 +34,12 @@ class MLPermissions extends MLPermitBase{
 
     //global method
     //return bool (true/false)
-    function isPermitted(action, vobject){
+    app.isPermitted = (action, vobject) => {
       return $this.isPermitted(action, vobject);
     }
 
-    function setPermissions(permissions){
-      $this.permissions = permissions;
-    }
-
-    function getPermissions() {
-      return $this.permissions;
-    }
-
-    app.config.globalProperties.$isPermitted = (action, vobject) => {
-      return $this.isPermitted(action, vobject);
-    }
-
-    app.config.globalProperties.setPermissions = (permissions) => {
-      $this.permissions = permissions;
-    }
-
-    app.config.globalProperties.getPermissions = () => {
-      return $this.permissions;
-    }
-
-    app.provide("vpermit", {isPermitted, setPermissions, getPermissions});
+    //instance method
+    // app.prototype.$isPermitted = function(){ return $this.permitted; }
 
     //mixin method
     app.mixin({
