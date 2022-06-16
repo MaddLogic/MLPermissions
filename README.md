@@ -1,10 +1,11 @@
-# V-Permit Vue.js Plugin
+# ML V-Permit 
 
-V-Permit is a tool that help implement website permissions and access control on the UI. It is not the end all be all of Access Control, but it is the first line of defense in providing correct access to functionality in your website.
+ML V-Permit is a tool that help implement website permissions and access control on the UI. It is not the end all be 
+all of Access Control, but it is the first line of defense in providing correct access to functionality in your website.
 
 ## [Demo](http://mlvpermit.com)
 
-Refer to this [___Demo___](http://mlvpermit.com)
+Refer to this [___Demo___](http://demo.mlvpermit.com)
 
 ## Requirements
 - [Vue.js](https://github.com/vuejs/vue) `2.x` or `3.x`
@@ -15,7 +16,7 @@ Refer to this [___Demo___](http://mlvpermit.com)
 
 ```bash
 
-$ npm i ml-vue-permission
+$ npm i ml-v-permit
 
 ```
 
